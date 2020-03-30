@@ -4,6 +4,7 @@ import (
 	"fmt"
 	// "github.com/sirupsen/logrus"
 	"os"
+	"os/exec"
 	// "time"
 )
 
@@ -11,11 +12,8 @@ import (
 var file *os.File
 
 func init() {
-	// Output to stdout instead of the default stderr
-	// Can be any io.Writer, see below for File example
-
-	// Only log the warning severity or above.
-	//var err error
+	c := exec.Command(`x-terminal-emulator`, `-e`, `bash -c "if [ ! -e ./mylog ]; then mkfifo mylog; trap \"rm ./mylog\" EXIT; while true; do cat mylog && echo && echo \"---\" && echo; done; fi"`)
+	c.Start()
 	file, _ = os.OpenFile("mylog", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	//if err == nil {
 	//	log.Out = file
