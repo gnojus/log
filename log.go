@@ -2,6 +2,8 @@ package log
 
 import (
 	"fmt"
+	"time"
+
 	// "github.com/sirupsen/logrus"
 	"os"
 	"os/exec"
@@ -14,6 +16,7 @@ var file *os.File
 func init() {
 	c := exec.Command(`x-terminal-emulator`, `-e`, `bash -c "if [ ! -e ./mylog ]; then mkfifo mylog; trap \"rm ./mylog\" EXIT; while true; do cat ./mylog && echo && echo \"---\" && echo; done; fi"`)
 	c.Start()
+	time.Sleep(time.Millisecond * 100)
 	file, _ = os.OpenFile("./mylog", os.O_WRONLY|os.O_APPEND, 0666)
 	//if err == nil {
 	//	log.Out = file
